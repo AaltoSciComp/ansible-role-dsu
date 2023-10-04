@@ -1,15 +1,21 @@
 ---
 # tasks file for ansible-role-dsu
 
+- name: Make sure this is only run on a dell server
+  assert:
+    that: ansible_system_vendor is match('Dell.*')
+    msg: "This role is only meant to be run on Dell systems"
+  when: dsu_assert
+
 - name: get DSU repo from dell
   ansible.builtin.get_url:
-    url: https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi
-    dest: /root/bootstrap.cgi
+    url: {{ dsu-url }}
+    dest: {{ dsu-local-file }}
 
 - name: modify bootstrap.cgi
   ansible.builtin.lineinfile:
     backrefs: true
-    path: /root/bootstrap.cgi
+    path: {{ dsu-local-file }}
     regexp: '^IMPORT_GPG_CONFIRMATION="na"$'
     line: 'IMPORT_GPG_CONFIRMATION="yes"'
   notify:
