@@ -21,7 +21,7 @@
     line: 'IMPORT_GPG_CONFIRMATION="yes"'
 
 - name: update dsu repo and keys
-  ansible.builtin.command: /bin/bash /root/bootstrap.cgi
+  ansible.builtin.command: bash "{{ dsu_bootstrap_local_copy }}"
 
 - name: install the latest dell-system-update
   ansible.builtin.dnf:
