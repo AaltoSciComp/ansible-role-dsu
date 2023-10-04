@@ -10,14 +10,21 @@
 - name: get DSU repo from dell
   ansible.builtin.get_url:
     url: "{{ dsu_url }}"
-    dest: "{{ dsu_local_file }}"
+    dest: "{{ dsu_bootstrap_local_copy }}"
+    force: yes
 
 - name: modify Dell bootstrap file
   ansible.builtin.lineinfile:
     backrefs: true
-    path: "{{ dsu_local_file }}"
+    path: "{{ dsu_bootstrap_local_copy }}"
     regexp: '^IMPORT_GPG_CONFIRMATION="na"$'
     line: 'IMPORT_GPG_CONFIRMATION="yes"'
   notify:
     - update dsu repo and keys
     - install the latest dell-system-update
+
+- name: clean up dsu bootstrap file
+  ansible.builtin.file:
+    path: "{{ dsu_bootstrap_local_copy }}"
+    state: absent
+  when: dsu_cleanup
