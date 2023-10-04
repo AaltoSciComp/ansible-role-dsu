@@ -5,7 +5,7 @@
 dsu_assert: False
 
 # url to DSU bootstrap file
-dsu-url: "https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi"
+dsu_url: "https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi"
 
 # local copy
-dsu-local-file: "/root/bootstrap.cgi"
+dsu_local_file: "/root/bootstrap.cgi"
