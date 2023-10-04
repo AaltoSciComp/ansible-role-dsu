@@ -31,7 +31,7 @@ rather force to proceed to make sure GPG keys and package are up-to-date always.
 
 Example Playbook
 ----------------
-
+```
 vars:
   # redefine to True if you want to enable Dell hardware check
   dsu_assert: False
@@ -39,8 +39,15 @@ vars:
   # that is the default, no need to define at all if it is still there
   dsu_url: https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi
 
+  # the downloaded file will go to...
+  dsu_bootstrap_local_copy: "/root/bootstrap.cgi"
+
+  # clean up downloaded bootstrap file (Default is True)
+  dsu_cleanup: True
+
 roles:
   - { role: ansible-role-dsu, tags: dsu }
+```
 
 License
 -------
