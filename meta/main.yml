@@ -4,7 +4,7 @@ galaxy_info:
   description: Dell firmware repo and dell-system-update package setup with ansible
   company: Aalto Scientific Computing
   license: GPL-2.0-or-later
-  min_ansible_version: 2.1
+  min_ansible_version: 2.0
   platforms:
   - name: EL
     versions:
@@ -13,9 +13,7 @@ galaxy_info:
     - 9
   categories:
   - system
-dependencies:
-  collections:
-    - name: ansible.posix
+dependencies: []
 galaxy_tags:
   - dsu
   - dell-system-update
