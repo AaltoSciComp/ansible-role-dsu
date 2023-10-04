@@ -9,13 +9,13 @@
 
 - name: get DSU repo from dell
   ansible.builtin.get_url:
-    url: {{ dsu-url }}
-    dest: {{ dsu-local-file }}
+    url: "{{ dsu-url }}"
+    dest: "{{ dsu-local-file }}"
 
 - name: modify bootstrap.cgi
   ansible.builtin.lineinfile:
     backrefs: true
-    path: {{ dsu-local-file }}
+    path: "{{ dsu-local-file }}"
     regexp: '^IMPORT_GPG_CONFIRMATION="na"$'
     line: 'IMPORT_GPG_CONFIRMATION="yes"'
   notify:
