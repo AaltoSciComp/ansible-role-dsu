@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Ivan Tervanto
   description: Dell firmware repo and dell-system-update package setup with ansible
