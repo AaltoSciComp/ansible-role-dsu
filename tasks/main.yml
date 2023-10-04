@@ -19,9 +19,15 @@
     path: "{{ dsu_bootstrap_local_copy }}"
     regexp: '^IMPORT_GPG_CONFIRMATION="na"$'
     line: 'IMPORT_GPG_CONFIRMATION="yes"'
-  notify:
-    - update dsu repo and keys
-    - install the latest dell-system-update
+
+- name: update dsu repo and keys
+  ansible.builtin.command: /bin/bash /root/bootstrap.cgi
+
+- name: install the latest dell-system-update
+  ansible.builtin.dnf:
+    name: dell-system-update
+    state: latest
+    update_cache: true
 
 - name: clean up dsu bootstrap file
   ansible.builtin.file:
