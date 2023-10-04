@@ -1,2 +1,19 @@
 ---
 # tasks file for ansible-role-dsu
+
+- name: DSU setup
+    tags: dsu
+    block:
+      - name: get DSU repo from dell
+        ansible.builtin.get_url:
+          url: https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi
+          dest: /root/bootstrap.cgi
+      - name: modify bootstrap.cgi
+        ansible.builtin.lineinfile:
+          backrefs: true
+          path: /root/bootstrap.cgi
+          regexp: '^IMPORT_GPG_CONFIRMATION="na"$'
+          line: 'IMPORT_GPG_CONFIRMATION="yes"'
+        notify:
+          - update dsu repo and keys
+          - install the latest dell-system-update
