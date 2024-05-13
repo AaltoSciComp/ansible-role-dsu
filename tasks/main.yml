@@ -23,11 +23,30 @@
 - name: update dsu repo and keys
   ansible.builtin.command: bash "{{ dsu_bootstrap_local_copy }}"
 
+  # This sometimes fails due to mirrorlist CGI problem
 - name: install the latest dell-system-update
   ansible.builtin.dnf:
     name: dell-system-update
     state: latest
     update_cache: true
+  register: result
+  ignore_errors: yes
+
+- block:
+  - name: Replace mirrorlist line in dell-system-update.repo
+    ansible.builtin.lineinfile:
+      path: /etc/yum.repos.d/dell-system-update.repo
+      regexp: '^mirrorlist='
+      line: 'baseurl=https://linux.dell.com/repo/hardware/dsu/os_dependent/RHEL9_64/'
+
+  - name: install the latest dell-system-update
+    ansible.builtin.dnf:
+      name: dell-system-update
+      state: latest
+      update_cache: true
+
+  when: result.rc != 0
+
 
 - name: clean up dsu bootstrap file
   ansible.builtin.file:
