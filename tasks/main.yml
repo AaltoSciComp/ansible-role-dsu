@@ -24,6 +24,7 @@
   ansible.builtin.command: bash "{{ dsu_bootstrap_local_copy }}"
 
   # This sometimes fails due to mirrorlist CGI problem
+  # E.g. always when setting release as "9.6" instead of "9"
 - name: install the latest dell-system-update
   ansible.builtin.dnf:
     name: dell-system-update
@@ -45,8 +46,8 @@
       state: latest
       update_cache: true
 
-  when: result.rc != 0
-
+ # when: result.rc != 0
+  when: rhel_release is defined
 
 - name: clean up dsu bootstrap file
   ansible.builtin.file:
